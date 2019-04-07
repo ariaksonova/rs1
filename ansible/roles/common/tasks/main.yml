@@ -1,0 +1,40 @@
+---
+- name: install list of packages
+  become: yes
+  apt:
+    pkg:
+      - curl
+      - git
+      - git-core
+      - zsh
+      - htop
+      - vim
+      - ufw
+- name: clone oh my zsh
+  become: true
+  git: repo=https://github.com/robbyrussell/oh-my-zsh.git dest=/root/.oh-my-zsh
+
+- name: deploy .zshrc
+  become: true
+  copy: src=zshrc dest=/root/.zshrc
+
+- name: default zsh
+  become: true
+  user: name=root shell=/bin/zsh
+
+- name: ufw disable ipv6
+  become: true
+  lineinfile: path=/etc/ufw/ufw.conf line="IPV6=no"
+
+- name: ufw allow ssh
+  become: true
+  ufw: rule=allow port=4242 proto=tcp
+
+- name: ufw logging on
+  become: true
+  ufw: logging=on
+
+- name: ufw enable
+  become: true
+  ufw: state=enabled
+

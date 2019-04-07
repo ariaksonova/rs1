@@ -1,0 +1,16 @@
+# site.yml
+---
+
+- name: apply common configuration to all nodes
+  hosts: all
+  remote_user: ansible
+
+  roles:
+    - common
+
+- name: apply rs1 configuration to rs1 nodes
+  hosts: rs1
+  remote_user: ansible
+
+  roles:
+    - rs1
